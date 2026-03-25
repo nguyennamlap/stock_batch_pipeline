@@ -1,0 +1,20 @@
+# Python
+__pycache__/
+*.pyc
+
+# Airflow logs
+logs/
+logging/
+
+# Data files
+data/raw/
+data/processed/
+
+# Env
+.env
+
+# Docker
+*.log
+
+# VS Code
+.vscode/
