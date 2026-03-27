@@ -1,5 +1,6 @@
 # 📊 Stock Data Pipeline (Airflow + Docker)
 
+![alt text](image-1.png)
 ## 🚀 Giới thiệu
 
 Đây là một mini project Data Engineering xây dựng pipeline xử lý dữ liệu chứng khoán theo mô hình **ETL + Data Quality**.
@@ -186,29 +187,4 @@ Mỗi module có Dockerfile riêng:
 * Docker Compose
 * Python 3.9+
 
----
 
-## 💡 Ý tưởng mở rộng
-
-* Thêm Kafka (streaming pipeline)
-* Thêm dashboard (Metabase / Superset)
-* Schedule nhiều DAG (intraday)
-* Alert khi data lỗi
-
----
-
-## 🧑‍💻 Tác giả
-
-* Project by: *Một Data Engineer tương lai (đang train level 😆)*
-
----
-
-## 🎯 Kết luận
-
-Project này giúp bạn:
-
-* Hiểu rõ pipeline ETL thực tế
-* Làm quen Airflow + Docker
-* Biết cách tổ chức code chuẩn Data Engineer
-
-> Làm xong project này mà chưa xin được intern thì… chắc tại HR chưa thấy thôi 😏
