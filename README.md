@@ -177,7 +177,6 @@ Mỗi module có Dockerfile riêng:
 * load
 
 ➡️ Giúp scale từng bước pipeline độc lập
-➡️ Chuẩn “Data Engineer xịn” chứ không phải script chạy tay 😏
 
 ---
 
