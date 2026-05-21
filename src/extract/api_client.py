@@ -97,7 +97,7 @@ def scrape_symbol(symbol, total_pages, max_retries=5):
                 logger.info(f"⏳ [{symbol}] Nghỉ 5 giây trước khi thử lại...")
                 time.sleep(5) # Nghỉ một nhịp để hệ thống/website ổn định lại
             else:
-                logger.error(f"💀 [{symbol}] THẤT BẠI HOÀN TOÀN sau {max_retries} lần thử.")
+                logger.error(f"💀 [{symbol}] THẤT BẠI HO    ÀN TOÀN sau {max_retries} lần thử.")
                 # Ném lỗi ra ngoài để luồng chính (Main) ghi nhận luồng này đã chết
                 raise Exception(f"Failed after {max_retries} retries for {symbol}") from e
                 

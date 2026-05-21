@@ -1,58 +1,59 @@
 # 📊 Stock Data Pipeline (Airflow + Docker)
 
 ![alt text](image-1.png)
-## 🚀 Giới thiệu
 
-Đây là một mini project Data Engineering xây dựng pipeline xử lý dữ liệu chứng khoán theo mô hình **ETL + Data Quality**.
+## 🚀 Introduction
 
-Pipeline thực hiện:
+This is a mini Data Engineering project building a pipeline to process stock data using the **ETL + Data Quality** model.
 
-* Extract dữ liệu từ API
-* Transform (làm sạch, xử lý)
-* Validate (kiểm tra chất lượng dữ liệu)
-* Load vào PostgreSQL
-* Orchestrate bằng Airflow
+Pipeline performs:
 
-Nói ngắn gọn: *dữ liệu đi vào như sinh viên năm nhất, đi ra thành senior sạch sẽ gọn gàng 😎*
+* Extracts data from API
+* Transforms (cleans, processes)
+* Validates (checks data quality)
+* Loads into PostgreSQL
+* Orchestrates using Airflow
+
+In short: *Data goes in like a freshman, comes out as a clean and tidy senior 😎*
 
 ---
 
-## 🏗️ Kiến trúc tổng thể
+## 🏗️ Overall Architecture
 
 ```
 API → Extract → Transform → Validate → Load → PostgreSQL
-                      ↑
-                   Airflow (DAG)
+
+↑
+
+Airflow (DAG)
 ```
 
-* **Airflow**: điều phối pipeline
-* **Docker**: đóng gói từng service
-* **PostgreSQL**: lưu trữ dữ liệu
-* **Python**: xử lý chính
+* **Airflow**: orchestrates the pipeline
+* ​​**Docker**: encapsulates each service
+* **PostgreSQL**: stores data
+* **Python**: handles the main processing
 
 ---
-
-## 📁 Cấu trúc thư mục
+## 📁 Directory Structure
 
 ```
 .
-├── dags/                  # Airflow DAG
-├── scripts/               # Script setup môi trường
+├── dags/ # Airflow DAG
+├── scripts/ # Environment setup script
 ├── src/
-│   ├── extract/           # Lấy dữ liệu từ API
-│   ├── transform/         # Làm sạch dữ liệu
-│   ├── quality_control/   # Validate dữ liệu
-│   ├── load/              # Load vào DB
-│   └── utils/             # Utils (DB, logger,...)
-├── docker-compose.yml     # Khởi chạy toàn bộ hệ thống
+│ ├── extract/ # Get data from API
+│ ├── transform/ # Clean data
+│ ├── quality_control/ # Validate data
+│ ├── load/ # Load into DB
+│ └── utils/ # Utils (DB, logger,...)
+├── docker-compose.yml # Start the entire system
 └── README.md
 ```
 
 ---
+## ⚙️ Installing & Running the Project
 
-## ⚙️ Cài đặt & Chạy dự án
-
-### 1. Clone project
+### 1. Clone project. project
 
 ```bash
 git clone <repo_url>
@@ -61,13 +62,13 @@ cd <project_name>
 
 ---
 
-### 2. Tạo Fernet Key (Airflow cần)
+### 2. Create Fernet Key (Airflow needed)
 
 ```bash
 python scripts/generate_fernet_key.py
 ```
 
-➡️ Copy key và set vào `.env` hoặc `docker-compose.yml`
+➡️ Copy the key and put it into `.env` or `docker-compose.yml`
 
 ---
 
@@ -77,7 +78,7 @@ python scripts/generate_fernet_key.py
 bash scripts/setup_airflow.sh
 ```
 
-Hoặc chạy từng bước:
+Or run step by step:
 
 ```bash
 bash scripts/init-airflow.sh
@@ -86,7 +87,7 @@ bash scripts/init-db.sh
 
 ---
 
-### 4. Chạy hệ thống
+### 4. Run the system
 
 ```bash
 docker-compose up -d
@@ -94,41 +95,44 @@ docker-compose up -d
 
 ---
 
-### 5. Truy cập Airflow
+### 5. Access Airflow
 
 * URL: http://localhost:8080
-* User/Pass: airflow / airflow (hoặc theo config)
+* User/Pass: airflow / airflow (or according to configuration)
 
 ---
 
 ## 🔄 DAG: `stock_daily_dag.py`
 
-Pipeline gồm các task chính:
+The pipeline includes the following main tasks:
 
 1. **Extract**
 
-   * Gọi API lấy dữ liệu stock
+* Calls API to retrieve stock data
 2. **Transform**
 
-   * Làm sạch dữ liệu (missing, format,...)
+* Cleans data (missing, formatting, etc.)
+
 3. **Validate**
 
-   * Kiểm tra:
+* Checks:
 
-     * Giá > 0
-     * Volume hợp lệ
+* Price > 0
+
+* Valid volume
 4. **Load**
 
-   * Insert vào PostgreSQL
+* Inserts into PostgreSQL
 
 ---
 
-## 🧠 Chi tiết các module
+## 🧠 Module Details
 
 ### 📥 Extract (`src/extract`)
 
-* `api_client.py`: gọi API
-* Trả về dữ liệu dạng JSON / DataFrame
+* `api_client.py`: Calls API
+
+* Returns data in JSON / DataFrame format
 
 ---
 
@@ -136,9 +140,11 @@ Pipeline gồm các task chính:
 
 * `data_cleaner.py`:
 
-  * Xử lý null
-  * Chuẩn hóa schema
-  * Fix lỗi data
+* Handles nulls
+
+* Schema normalization
+
+* Data error fixing
 
 ---
 
@@ -146,8 +152,9 @@ Pipeline gồm các task chính:
 
 * `validate.py`:
 
-  * Dùng rule validate
-  * Có thể tích hợp Great Expectations
+* Use rule validation
+
+* Great Expectations can be integrated
 
 ---
 
@@ -155,35 +162,34 @@ Pipeline gồm các task chính:
 
 * `db_loader.py`:
 
-  * Kết nối PostgreSQL
-  * Insert dữ liệu
+* Connect to PostgreSQL
+
+* Insert data
 
 ---
 
 ### 🧰 Utils (`src/utils`)
 
 * `db_connector.py`: connection pool
-* `logger.py`: logging chuẩn
+* `logger.py`: standard logging
 
 ---
 
 ## 🐳 Docker
 
-Mỗi module có Dockerfile riêng:
+Each module has its own Dockerfile:
 
 * extract
 * transform
 * validate
 * load
 
-➡️ Giúp scale từng bước pipeline độc lập
+➡️ Allows scaling each pipeline step independently
 
 ---
 
-## 📌 Yêu cầu
+## 📌 Requirements
 
 * Docker
 * Docker Compose
 * Python 3.9+
-
-
